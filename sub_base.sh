@@ -44,7 +44,7 @@ deepspeed run_pretraining.py \
   --print_steps 100 \
   --num_epochs_between_checkpoints 1 \
   --job_name "$JOB_NAME" \
-  --job_id "$JOB_ID" \
+  --current_run_id "$JOB_ID" \
   --project_name "$JOB_NAME" \
   --validation_epochs 3 \
   --validation_epochs_begin 1 \
