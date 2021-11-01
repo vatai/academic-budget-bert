@@ -4,6 +4,7 @@
 #$ -j y
 #$ -l h_rt=25:00:00
 #$ -cwd
+#$ -o ~/shared/data/NLP/academic-budget-ckpt/$JOB_NAME-$JOB_ID/output.txt
 
 source /etc/profile.d/modules.sh
 module load gcc/9.3.0 python/3.8/3.8.7 openmpi/4.0.5 cuda/11.1/11.1.1 cudnn/8.0/8.0.5 nccl/2.8/2.8.4-1
