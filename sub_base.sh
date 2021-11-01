@@ -58,6 +58,7 @@ deepspeed run_pretraining.py \
   --early_stop_time 180 \
   --early_stop_eval_loss 6 \
   --seed 42 \
+  --finetune_time_markers 0.0,0.5,1.0 \
   --fp16
-
+  # --load_training_checkpoint /home/acc12262dj/data/data/NLP/academic-training-short-ckpt/pretraining_experiment-/ \
 deactivate
