@@ -16,8 +16,8 @@ MPIOPTS="-np ${NUM_PROCS} -map-by ppr:${NUM_GPUS_PER_NODE}:node -mca pml ob1 -mc
 
 
 python run_glue.py \
-  --model_name_or_path /home/acc12262dj/data/data/NLP/academic-training-short-ckpt/pretraining_experiment-/epoch0_step23/ \
-  --task_name MRPC \
+  --model_name_or_path ~/share/data \
+  --task_name MNLI \
   --max_seq_length 128 \
   --output_dir ~/data/data/NLP/academic-training-short-ckpt-ft \
   --overwrite_output_dir \
