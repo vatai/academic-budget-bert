@@ -9,6 +9,7 @@ import torch
 
 
 def rename(key: str, last_layer_idx: int):
+    print("INPUT:", key)
     words = key.split(".")
     if words[-2] == "dense_act":
         words[-2] = "dense"
@@ -23,6 +24,11 @@ def rename(key: str, last_layer_idx: int):
             + ["encoder.layer", str(last_layer_idx), "output.LayerNorm"]
             + words[-1:]
         )
+    if words[-2] == "LayerNorm":
+        if words[-1] == "weight":
+            words[-1] = "gamma"
+        if words[-1] == "bias":
+            words[-1] = "beta"
     # elif words[0] == "cls":
     #     words = ["classifier", words[-1]]
     new_key = ".".join(words)
@@ -30,6 +36,8 @@ def rename(key: str, last_layer_idx: int):
     # if key == "cls.predictions.bias":
     #     new_key = "cls.predictions.decoder.bias"
 
+    print("OUTPUT:", new_key)
+    print("--")
     return new_key
 
 
