@@ -14,9 +14,10 @@ if not ft_ckpt_dir.exists():
 
 def get_queries(mask_token):
     queries = [
-        f"I like {mask_token} beer.",
-        f"I like cold {mask_token}.",
-        f"Cows produce {mask_token}.",
+        f"I like [MASK] beer.",
+        f"I like cold [MASK].",
+        f"Cows produce [MASK].",
+        f"[MASK] produce milk.",
     ]
     return queries
 
@@ -24,6 +25,7 @@ def get_queries(mask_token):
 def fill_mask(model: BertLMHeadModel, tokenizer: AutoTokenizer, query: str):
     tokens = tokenizer(query)
     input_ids = tokens["input_ids"]
+    mask_pos = input_ids.index(tokenizer.mask_token_id)
     yhat = model(
         [
             None,
@@ -33,12 +35,19 @@ def fill_mask(model: BertLMHeadModel, tokenizer: AutoTokenizer, query: str):
             None,
         ]
     )
-    idx = yhat.argmax().item()
-    mask_pos = input_ids.index(tokenizer.mask_token_id)
+    print("TOKENS", tokens)
+    print(yhat.shape)
+    print(tokenizer.mask_token)
+    idx = yhat[0, mask_pos].argmax().item()
     input_ids[mask_pos] = idx
     decoded_tok = tokenizer.decode([idx])
     result = tokenizer.decode(input_ids)
-    return f"result: {result}, new token idx {idx}, new token decoded {decoded_tok}"
+    return (
+        f"result: {result}\n"
+        f"predicted token idx {idx}\n"
+        f"predicted token decoded: `{decoded_tok}`\n"
+        f"mask position: {mask_pos}\n"
+    )
 
 
 for query in get_queries("[MASK]"):
