@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import torch
-from transformers import AutoTokenizer, PretrainedConfig
+from transformers import AutoTokenizer, BertForMaskedLM, PretrainedConfig
 
 from pretraining.modeling import BertLMHeadModel
 
@@ -14,29 +14,33 @@ if not ft_ckpt_dir.exists():
 
 def get_queries(mask_token):
     queries = [
-        f"I like [MASK] beer.",
-        f"I like cold [MASK].",
-        f"Cows produce [MASK].",
-        f"[MASK] produce milk.",
+        "I like [MASK] beer.",
+        "I like cold [MASK].",
+        "Cows produce [MASK].",
+        "[MASK] produce milk.",
+        "Chocolate is [MASK].",
     ]
     return queries
 
 
+hf_model = BertForMaskedLM.from_pretrained("bert-base-uncased")
+
+
 def fill_mask(model: BertLMHeadModel, tokenizer: AutoTokenizer, query: str):
-    tokens = tokenizer(query)
-    input_ids = tokens["input_ids"]
-    mask_pos = input_ids.index(tokenizer.mask_token_id)
+    tokens = tokenizer([query], return_tensors="pt")
+    input_ids = tokens["input_ids"][0]
+    mask_pos = (input_ids == tokenizer.mask_token_id).nonzero(as_tuple=True)[0]
     yhat = model(
         [
             None,
-            torch.LongTensor([input_ids]),
-            torch.LongTensor([tokens["token_type_ids"]]),
-            torch.LongTensor([tokens["attention_mask"]]),
+            tokens["input_ids"],
+            tokens["token_type_ids"],
+            tokens["attention_mask"],
             None,
         ]
     )
+    yhat = hf_model(**tokens).logits"
     print("TOKENS", tokens)
-    print(yhat.shape)
     print(tokenizer.mask_token)
     idx = yhat[0, mask_pos].argmax().item()
     input_ids[mask_pos] = idx
@@ -50,11 +54,9 @@ def fill_mask(model: BertLMHeadModel, tokenizer: AutoTokenizer, query: str):
     )
 
 
+model = BertLMHeadModel.from_pretrained(ft_ckpt_dir, args=ft_ckpt_dir)
+tokenizer = AutoTokenizer.from_pretrained(ft_ckpt_dir)
 for query in get_queries("[MASK]"):
-    config = PretrainedConfig.from_pretrained(ft_ckpt_dir)
-    model = BertLMHeadModel(config, args=ft_ckpt_dir)
-    model.from_pretrained(ft_ckpt_dir, args=ft_ckpt_dir)
-    tokenizer = AutoTokenizer.from_pretrained(ft_ckpt_dir)
 
     predicted = fill_mask(model, tokenizer, query)
     print(predicted)
