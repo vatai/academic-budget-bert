@@ -21,7 +21,7 @@ python3 run_glue.py \
   --model_name_or_path $SNAPSHOT \
   --task_name MNLI \
   --max_seq_length 128 \
-  --output_dir ~/data/data/NLP/academic-training-short-ckpt-ft \
+  --output_dir ~/shared/data/NLP/academic-training-short-ckpt-ft \
   --overwrite_output_dir \
   --do_train --do_eval \
   --evaluation_strategy steps \
