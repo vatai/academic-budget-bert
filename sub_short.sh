@@ -10,6 +10,9 @@ source /etc/profile.d/modules.sh
 module load gcc/9.3.0 python/3.8/3.8.7 openmpi/4.0.5 cuda/11.1/11.1.1 cudnn/8.0/8.0.5 nccl/2.8/2.8.4-1
 source ~/venv/pytorch+horovod/bin/activate
 
+source subinfo.src
+cp $0 ~/shared/data/NLP/academic-budget-ckpt/$JOB_NAME-$JOB_ID/
+
 NUM_GPUS_PER_NODE=4
 NUM_PROCS=$(expr ${NHOSTS} \* ${NUM_GPUS_PER_NODE})
 
