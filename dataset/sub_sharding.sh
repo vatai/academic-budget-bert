@@ -13,7 +13,7 @@ source ~/venv/${PYENV}/bin/activate
 
 OUTPUT_DIR=/groups/gcb50300/data/NLP/academic-budget-data/wikipedia
 PREV_JOB_NAME=sub_process.sh
-PREV_JOB_DIR=$(basename $(ls -d ${OUTPUT_DIR}/${PREV_JOB_NAME}.sh-* | sort | tail -n1))
+PREV_JOB_DIR=$(basename $(ls -d ${OUTPUT_DIR}/${PREV_JOB_NAME}-* | sort | tail -n1))
 echo PREV_JOB_DIR=$PREV_JOB_DIR
 
 python3 shard_data.py \
