@@ -39,7 +39,7 @@ deepspeed run_pretraining.py \
   --adam_eps 1e-6 \
   --total_training_time 24.0 \
   --early_exit_time_marker 24.0 \
-  --dataset_path ~/shared/data/NLP/corpora/wikipedia_samples \
+  --dataset_path ~/shared/data/NLP/corpora/wikipedia_samples_base \
   --output_dir ~/shared/data/NLP/academic-budget-ckpt \
   --print_steps 100 \
   --num_epochs_between_checkpoints 1 \
@@ -62,4 +62,5 @@ deepspeed run_pretraining.py \
   --finetune_time_markers 0.0,0.5,1.0 \
   --fp16
   # --load_training_checkpoint /home/acc12262dj/data/data/NLP/academic-training-short-ckpt/pretraining_experiment-/ \
+  # --load_training_checkpoint academic-budget-ckpt/sub_base.sh-8290699/8290699 \
 deactivate

@@ -2,7 +2,7 @@
 
 #$ -l rt_C.large=1
 #$ -j y
-#$ -l h_rt=24:00:00
+#$ -l h_rt=30:00:00
 #$ -cwd
 
 source /etc/profile.d/modules.sh
@@ -11,16 +11,17 @@ PYENV=pytorch
 source ~/${PYENV}.modules
 source ~/venv/${PYENV}/bin/activate
 
-python generate_samples.py \
-    --dir ~/data/data/NLP/corpora/wikipedia_shards \
-    -o ~/data/data/NLP/corpora/wikipedia_samples \
+python3 generate_samples.py \
+    --dir /groups/gcb50300/data/NLP/corpora/wikipedia_shards_merged \
+    -o /groups/gcb50300/data/NLP/corpora/wikipedia_samples_base2 \
     --dup_factor 10 \
     --seed 42 \
     --do_lower_case 1 \
     --masked_lm_prob 0.15 \
     --max_seq_length 128 \
-    --vocab_file ~/data/data/NLP/bert-large-uncased-vocab.txt \
-    --model_name bert-large-uncased \
+    --vocab_file /groups/gcb50300/data/NLP/bert-large-uncased-vocab.txt \
+    --model_name bert-base-uncased \
     --max_predictions_per_seq 20 \
-    --n_processes 16
+    --n_processes $(nproc)
 
+echo All DONE!
