@@ -6,11 +6,13 @@ PYENV=pytorch
 source ~/${PYENV}.modules
 source ~/venv/${PYENV}/bin/activate
 
-OUTPUT_DIR=/groups/gcb50300/data/NLP/academic-budget-data/wikipedia
-PREV_JOB_DIR=$(basename $(ls -d ${OUTPUT_DIR}/${PREV_JOB_NAME}-* | sort | tail -n1))
-echo PREV_JOB_DIR=$PREV_JOB_DIR
+OUTPUT_DIR=/groups/gcb50300/data/NLP/academic-budget-ckpt
+
+function output_dir () {
+  echo ${OUTPUT_DIR}/$1-$2/output
+}
 
 function prev_job_dir () {
-  basename $(ls -d ${OUTPUT_DIR}/$1.sh-* | sort | tail -n1)
+  echo $(ls -d ${OUTPUT_DIR}/$1-* | sort | tail -n1)/output
 }
 
