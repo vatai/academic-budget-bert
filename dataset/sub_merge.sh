@@ -10,6 +10,6 @@ source ../common.src
 python3 merge_shards.py \
     --data $(prev_job_dir sub_sharding.sh) \
     --output_dir $(output_dir $JOB_NAME $JOB_ID) \
-    --ratio 4 \
+    --ratio 2 \
 && echo ALL DONE
 

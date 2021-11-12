@@ -8,7 +8,7 @@
 source ../common.src
 
 python3 generate_samples.py \
-  --dir $(prev_job_dir sub_merge.sh) \
+  --dir $(prev_job_dir sub_sharding.sh) \
   -o $(output_dir $JOB_NAME $JOB_ID) \
   --dup_factor 10 \
   --seed 42 \
