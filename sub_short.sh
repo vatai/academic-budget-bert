@@ -1,24 +1,15 @@
 #!/bin/sh
-
 #$ -l rt_F=1
-#$ -j y
 #$ -l h_rt=2:30:00
+#$ -o /groups/gcb50300/data/NLP/academic-budget-ckpt/$JOB_NAME-$JOB_ID/output.txt
 #$ -cwd
-#$ -o ~/shared/data/NLP/academic-budget-ckpt/$JOB_NAME-$JOB_ID/output.txt
+#$ -j y
 
-source /etc/profile.d/modules.sh
-module load gcc/9.3.0 python/3.8/3.8.7 openmpi/4.0.5 cuda/11.1/11.1.1 cudnn/8.0/8.0.5 nccl/2.8/2.8.4-1
-source ~/venv/pytorch+horovod/bin/activate
-
-bash query_submission.sh
-echo cp $0 ~/shared/data/NLP/academic-budget-ckpt/${JOB_NAME}-${JOB_ID}/
-
-NUM_GPUS_PER_NODE=4
-NUM_PROCS=$(expr ${NHOSTS} \* ${NUM_GPUS_PER_NODE})
-
-MPIOPTS="-np ${NUM_PROCS} -map-by ppr:${NUM_GPUS_PER_NODE}:node -mca pml ob1 -mca btl self,tcp -mca btl_tcp_if_include bond0"
+source ./common.src
 
 deepspeed run_pretraining.py \
+  --dataset_path $(prev_job_dir sub_samples.sh) \
+  --output_dir $(output_dir $JOB_NAME $JOB_ID) \
   --model_type bert-mlm --tokenizer_name bert-base-uncased \
   --hidden_act gelu \
   --hidden_size 768 \
@@ -42,8 +33,6 @@ deepspeed run_pretraining.py \
   --adam_eps 1e-6 \
   --total_training_time 0.01 \
   --early_exit_time_marker 0.01 \
-  --dataset_path ~/shared/data/NLP/corpora/wikipedia_samples \
-  --output_dir ~/shared/data/NLP/academic-budget-ckpt \
   --print_steps 100 \
   --num_epochs_between_checkpoints 1 \
   --job_name "$JOB_NAME" \
@@ -62,7 +51,8 @@ deepspeed run_pretraining.py \
   --early_stop_time 180 \
   --early_stop_eval_loss 6 \
   --seed 42 \
-  --finetune_time_markers 0.0,0.5,1.0 \
-  --fp16
+  --fp16 \
+&& echo All DONE!
+
   # --load_training_checkpoint /home/acc12262dj/data/data/NLP/academic-training-short-ckpt/pretraining_experiment-/ \
 deactivate

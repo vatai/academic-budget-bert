@@ -6,6 +6,18 @@ PYENV=pytorch
 source ~/${PYENV}.modules
 source ~/venv/${PYENV}/bin/activate
 
+echo "<gpus>"
+nvidia-smi -L
+echo "</gpus>"
+
+echo "<git-log>"
+git log -1
+echo "</git-log>"
+
+echo "<git-diff>"
+git diff
+echo "</git-diff>"
+
 OUTPUT_DIR=/groups/gcb50300/data/NLP/academic-budget-ckpt
 
 function output_dir () {

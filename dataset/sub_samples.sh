@@ -15,7 +15,7 @@ python3 generate_samples.py \
   --do_lower_case 1 \
   --masked_lm_prob 0.15 \
   --max_seq_length 128 \
-  --vocab_file /groups/gcb50300/data/NLP/academic-budget-ckpt/vocab.txt \
+  --vocab_file $OUTPUT_DIR/vocab.txt \
   --model_name bert-base-uncased \
   --max_predictions_per_seq 20 \
   --n_processes $(nproc) \
