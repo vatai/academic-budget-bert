@@ -8,7 +8,7 @@
 source ./common.src
 
 python3 run_glue.py \
-  --model_name_or_path $(prev_job_dir sub_base.sh)/epoch1000000_step14823/ \
+  --model_name_or_path ${OUTPUT_DIR}/sub_base.sh-8352480/8352480/epoch1000000_step46069/ \
   --output_dir $(output_dir $JOB_NAME $JOB_ID) \
   --task_name MNLI \
   --max_seq_length 128 \

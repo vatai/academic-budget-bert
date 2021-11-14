@@ -9,7 +9,7 @@ source ./common.src
 
 deepspeed run_pretraining.py \
   --dataset_path $(prev_job_dir sub_samples.sh) \
-  --output_dir $(output_dir $JOB_NAME $JOB_ID) \
+  --output_dir ${OUTPUT_DIR} \
   --model_type bert-mlm --tokenizer_name bert-base-uncased \
   --hidden_act gelu \
   --hidden_size 768 \
