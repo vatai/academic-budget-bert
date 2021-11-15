@@ -8,7 +8,7 @@
 source ./common.src
 
 python3 run_glue.py \
-  --model_name_or_path ${OUTPUT_DIR}/sub_base.sh-8352480/8352480/epoch1000000_step46069/ \
+  --model_name_or_path ${OUTPUT_DIR}/training-large-ckpt/pretraining_experiment-/epoch1000000_step14823/ \
   --output_dir $(output_dir $JOB_NAME $JOB_ID) \
   --task_name MNLI \
   --max_seq_length 128 \
@@ -19,9 +19,10 @@ python3 run_glue.py \
   --per_device_eval_batch_size 16 \
   --learning_rate 5e-5 \
   --weight_decay 0.01 \
-  --eval_steps 50 --evaluation_strategy steps \
+  --evaluation_strategy epoch \
   --max_grad_norm 1.0 \
   --num_train_epochs 5 \
   --lr_scheduler_type polynomial \
   --warmup_steps 50 \
 && echo All DONE!
+  # --eval_steps 50 \
