@@ -19,10 +19,9 @@ python3 run_glue.py \
   --per_device_eval_batch_size 16 \
   --learning_rate 5e-5 \
   --weight_decay 0.01 \
-  --evaluation_strategy epoch \
+  --eval_steps 1 --evaluation_strategy epoch \
   --max_grad_norm 1.0 \
   --num_train_epochs 5 \
   --lr_scheduler_type polynomial \
   --warmup_steps 50 \
 && echo All DONE!
-  # --eval_steps 50 \
