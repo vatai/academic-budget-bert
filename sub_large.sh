@@ -1,5 +1,5 @@
 #!/bin/sh
-#$ -l rt_F=1
+#$ -l rt_AF=1
 #$ -l h_rt=25:00:00
 #$ -o /groups/gcb50300/data/NLP/academic-budget-ckpt/$JOB_NAME-$JOB_ID/output.txt
 #$ -cwd
