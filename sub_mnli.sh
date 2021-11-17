@@ -8,7 +8,7 @@
 source ./common.src
 
 python3 run_glue.py \
-  --model_name_or_path ${OUTPUT_DIR}/training-large-ckpt/pretraining_experiment-/epoch1000000_step14823/ \
+  --model_name_or_path ${OUTPUT_DIR}/sub_large.sh-8363450/8363450/epoch1000000_step12988/ \
   --output_dir $(output_dir $JOB_NAME $JOB_ID) \
   --task_name MNLI \
   --max_seq_length 128 \
