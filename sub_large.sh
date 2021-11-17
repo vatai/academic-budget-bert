@@ -1,5 +1,5 @@
 #!/bin/sh
-#$ -l rt_AF=1
+#$ -l rt_F=2
 #$ -l h_rt=25:00:00
 #$ -o /groups/gcb50300/data/NLP/academic-budget-ckpt/$JOB_NAME-$JOB_ID/output.txt
 #$ -cwd
@@ -7,7 +7,8 @@
 
 source ./common.src
 
-deepspeed run_pretraining.py \
+# deepspeed run_pretraining.py \
+mpirun ${MPIOPTS} python run_pretraining.py \
   --dataset_path $(prev_job_dir sub_samples.sh) \
   --output_dir ${OUTPUT_DIR} \
   --model_type bert-mlm --tokenizer_name bert-large-uncased \

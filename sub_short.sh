@@ -1,5 +1,5 @@
 #!/bin/sh
-#$ -l rt_F=1
+#$ -l rt_F=2
 #$ -l h_rt=2:30:00
 #$ -o /groups/gcb50300/data/NLP/academic-budget-ckpt/$JOB_NAME-$JOB_ID/output.txt
 #$ -cwd
@@ -7,7 +7,8 @@
 
 source ./common.src
 
-deepspeed run_pretraining.py \
+# deepspeed run_pretraining.py \
+mpirun ${MPIOPTS} python run_pretraining.py \
   --dataset_path $(prev_job_dir sub_samples.sh) \
   --output_dir ${OUTPUT_DIR} \
   --model_type bert-mlm --tokenizer_name bert-base-uncased \
@@ -35,9 +36,9 @@ deepspeed run_pretraining.py \
   --early_exit_time_marker 0.01 \
   --print_steps 100 \
   --num_epochs_between_checkpoints 1 \
-  --job_name "$JOB_NAME" \
-  --current_run_id "$JOB_ID" \
-  --project_name "$JOB_NAME" \
+  --job_name $JOB_NAME \
+  --current_run_id $JOB_ID \
+  --project_name $JOB_NAME \
   --validation_epochs 3 \
   --validation_epochs_begin 1 \
   --validation_epochs_end 1 \

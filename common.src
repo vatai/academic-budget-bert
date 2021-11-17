@@ -20,6 +20,10 @@ echo "</git-diff>"
 
 OUTPUT_DIR=/groups/gcb50300/data/NLP/academic-budget-ckpt
 
+NUM_GPUS_PER_NODE=4
+NUM_PROCS=$(expr ${NHOSTS} \* ${NUM_GPUS_PER_NODE})
+MPIOPTS="-np ${NUM_PROCS} -map-by ppr:${NUM_GPUS_PER_NODE}:node -mca pml ob1 -mca btl self,tcp -mca btl_tcp_if_include bond0"
+
 function output_dir () {
   echo ${OUTPUT_DIR}/$1-$2/output
 }
